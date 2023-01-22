@@ -13,4 +13,6 @@ RUN apt purge -y software-properties-common gpg-agent python\* \
     && apt clean \
     && rm -rf /etc/cron.*/*
 
+LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
+
 ENTRYPOINT ["cron", "-f"]
