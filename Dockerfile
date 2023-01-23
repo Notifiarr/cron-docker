@@ -13,11 +13,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
 RUN DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
     php8.0 php8.0-mysqli php8.0-memcached mysql-client
 
-# This cleanup saves a few megabytes on the image, but isn't terribly critical or important.
+# Clean up a few things. The cron changes are important.
 RUN DEBIAN_FRONTEND=noninteractive apt purge -y software-properties-common gpg-agent \
     && apt autoremove -y \
     && apt clean \
-    && rm -rf /etc/cron.*/*
+    && rm -rf /etc/cron.*/* /etc/cron.d \
+    && ln -s /config/cron /etc/cron.d
 
 LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
 

@@ -16,15 +16,15 @@ docker pull ghcr.io/notifiarr/cron-docker:main
 
 ### Example
 
-You should definitely mount something at `/var/log` or `/var/log/supervisor`.
+You should definitely mount something at `/var/log/supervisor` to capture log files.
 The other two folders shown here are optional depending on what you want to do.
-Put crons into `/etc/cron.d` and put supervisor configs into `/config/supervisor`.
+Put crons into `/config/cron` and put supervisor configs into `/config/supervisor`.
 
 ```
 docker run -d \
     --name cron \
     -v /host/logs:/var/log/supervisor:rw \
-    -v /host/crons:/etc/cron.d:ro \
+    -v /host/cron.d:/config/cron:ro \
     -v /host/supervisor.d:/config/supervisor:ro \
     ghcr.io/notifiarr/cron-docker:main
 ```
