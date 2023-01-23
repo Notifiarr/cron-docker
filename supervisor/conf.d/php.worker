@@ -1,0 +1,9 @@
+# This exanmple file does not end with .conf so it is not included by supervisord.
+[program:php]
+user=abc
+numprocs_start=1
+numprocs=2
+process_name=php%(process_num)02d
+command=/usr/bin/php -f /config/script.php
+autorestart=true
+redirect_stderr=true
