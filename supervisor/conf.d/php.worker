@@ -1,4 +1,4 @@
-# This exanmple file does not end with .conf so it is not included by supervisord.
+; This exanmple file does not end with .conf so it is not included by supervisord.
 [program:php]
 user=abc
 numprocs_start=1
