@@ -11,7 +11,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
     && groupadd --system --non-unique --gid ${PGID} abc \
     && useradd --system --non-unique --uid ${PUID} --gid ${PGID} \
         --no-create-home --home-dir / --shell /usr/sbin/nologin abc \
-    && apt -y install --no-install-recommends software-properties-common gpg-agent cron supervisor \
+    && apt -y install --no-install-recommends \
+        cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
     && apt-add-repository ppa:ondrej/php \
     && apt update
 
