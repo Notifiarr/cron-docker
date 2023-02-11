@@ -1,0 +1,11 @@
+#!/usr/bin/env dash
+
+# Copy crontab files into container as root-owned.
+for i in /config/cron/*; do cp --no-preserve all -u $i /etc/cron.d; done
+
+# Update abc user with provided PUID and PGID.
+[ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc
+[ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc
+
+# Start supervisor, which starts cron any other workers.
+/usr/bin/supervisord -c etc/supervisor/supervisord.conf

@@ -30,4 +30,6 @@ LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docke
 
 COPY supervisor /etc/supervisor
 COPY crontab /etc/crontab
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+COPY init /init
+
+ENTRYPOINT ["/init"]
