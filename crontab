@@ -2,4 +2,4 @@
 #### Not intended to be overwritten, but it can be if you'd really like to.
 
 # Copy new files into cron.d that get added from outside the container.
-*/5 * * * * root (for i in /config/cron/*; do cp --no-preserve all -u $i /etc/cron.d; done) >/dev/null 2>&1
+*/5 * * * * root cp --no-preserve all -u /config/cron/* /etc/cron.d / >/dev/null 2>&1

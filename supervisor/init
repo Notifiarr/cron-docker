@@ -1,7 +1,10 @@
 #!/usr/bin/env dash
 
+# Custom Dockerfile init script. 
+# Copies files, sets UID/GID, applies time zone, starts supervisor.
+
 # Copy crontab files into container as root-owned.
-for i in /config/cron/*; do cp --no-preserve all -u $i /etc/cron.d; done
+cp --no-preserve all -u /config/cron/* /etc/cron.d
 
 # Update abc user with provided PUID and PGID.
 [ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc
