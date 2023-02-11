@@ -24,7 +24,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-rec
 RUN DEBIAN_FRONTEND=noninteractive apt purge -y software-properties-common gpg-agent \
     && apt autoremove -y \
     && apt clean \
-    && rm -rf /etc/cron.*/*
+    && rm -rf /etc/cron.*/* \
+    && echo "TZ=$TZ" >> /etc/environment
 
 LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
 
