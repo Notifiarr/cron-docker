@@ -15,4 +15,4 @@ cp --no-preserve all -u /config/cron/* /etc/cron.d
 [ -z "$TZ" ] || /usr/bin/sed -i'' /etc/environment -e "s#^TZ=.*#TZ=$TZ#g"
 
 # Start supervisor, which starts cron any other workers.
-exec /usr/bin/supervisord -c etc/supervisor/supervisord.conf
+exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
