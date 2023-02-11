@@ -18,14 +18,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
 
 # This is where we install our custom packages we use in our crontabs.
 RUN DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
-    php8.0 php8.0-mysqli php8.0-memcached mysql-client
+    php8.1-cli php8.1-mysqli php8.1-memcached mysql-client
 
 # Clean up a few things. The cron changes are important.
 RUN DEBIAN_FRONTEND=noninteractive apt purge -y software-properties-common gpg-agent \
     && apt autoremove -y \
     && apt clean \
-    && rm -rf /etc/cron.*/* /etc/cron.d \
-    && ln -s /config/cron /etc/cron.d
+    && rm -rf /etc/cron.*/*
 
 LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
 
