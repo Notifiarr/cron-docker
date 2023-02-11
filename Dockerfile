@@ -4,6 +4,7 @@ FROM ubuntu:jammy@sha256:c985bc3f77946b8e92c9a3648c6f31751a7dd972e06604785e47303
 # These can be changed, and the container runs usermod/groupmod to apply changes.
 ENV PUID=99
 ENV PGID=100
+ENV TZ=/usr/share/zoneinfo/America/New_York
 
 # The user matches swag, where the website runs the same code that we run in crontabs.
 # software-properties-common and gpg-agent are needed to run apt-add-repository.
