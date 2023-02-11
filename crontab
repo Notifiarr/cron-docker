@@ -1,7 +1,5 @@
 #### This is the default /etc/crontab file installed into the container.
 #### Not intended to be overwritten, but it can be if you'd really like to.
 
-# Fix files that are set with invalid ownership for cron.
-*/5 * * * * root (chown root: /config/cron/* && chmod 0644 /config/cron/*) >/dev/null 2>&1
-# Link new files into cron.d that get added from outside the container.
-*/5 * * * * root (cd /etc/cron.d; for i in /config/cron/*; do [ -f $(basename $i) ] || ln -s $i; done) >/dev/null 2>&1
+# Copy new files into cron.d that get added from outside the container.
+*/5 * * * * root (for i in /config/cron/*; do cp --no-preserve all -u $i /etc/cron.d; done) >/dev/null 2>&1
