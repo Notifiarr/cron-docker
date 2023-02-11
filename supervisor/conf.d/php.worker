@@ -1,6 +1,6 @@
 ; This exanmple file does not end with .conf so it is not included by supervisord.
 [program:php]
-user=abc
+user=%(ENV_PUID)s
 numprocs_start=1
 numprocs=2
 process_name=php%(process_num)02d
