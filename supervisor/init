@@ -4,11 +4,11 @@
 # Copies files, sets UID/GID, applies time zone, starts supervisor.
 
 # Copy crontab files into container as root-owned.
-cp --no-preserve all -u /config/cron/* /etc/cron.d
+cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
 
 # Update abc user with provided PUID and PGID.
-[ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc
-[ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc
+[ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc 2>/dev/null
+[ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc 2>/dev/null
 
 # Update the provided time zone in the global environment file.
 # This allows cron to pass the time zone to apps it runs.
