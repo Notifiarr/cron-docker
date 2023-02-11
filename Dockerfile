@@ -13,11 +13,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
         --no-create-home --home-dir / --shell /usr/sbin/nologin abc \
     && apt -y install --no-install-recommends \
         cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
-    && apt-add-repository ppa:ondrej/php \
-    && apt update
+    && apt-add-repository ppa:ondrej/php
 
 # This is where we install our custom packages we use in our crontabs.
-RUN DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recommends \
     php8.1-cli php8.1-mysqli php8.1-memcached mysql-client
 
 # Clean up a few things. The cron changes are important.
