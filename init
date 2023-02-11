@@ -8,6 +8,7 @@ for i in /config/cron/*; do cp --no-preserve all -u $i /etc/cron.d; done
 [ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc
 
 # Update the provided time zone in the global environment file.
+# This allows cron to pass the time zone to apps it runs.
 [ -z "$TZ" ] || /usr/bin/sed -i'' /etc/environment -e "s#^TZ=.*#TZ=$TZ#g"
 
 # Start supervisor, which starts cron any other workers.
