@@ -4,7 +4,7 @@
 # Makes folders, copies files, sets UID/GID, applies time zone, starts supervisor.
 
 # If the /config directory is mounted, make sure it has a log directory.
-[ ! -d "/config" ] || mkdir -p /config/{log,supervisor,cron}
+[ ! -d "/config" ] || mkdir -p /config/log /config/supervisor /config/cron
 
 # Copy crontab files into container as root-owned.
 cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
@@ -16,7 +16,8 @@ cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
 # Set a default PORT if one is not provided.
 [ -n "$SUPERVISOR_PORT" ] || SUPERVISOR_PORT=9911
 
-# These need to be set so supervisor doesn't complain. Give them values if you'd like.
+# These need to be set so supervisor doesn't complain.
+# Pass values in from Docker if you'd like.
 # Password should begin with {SHA} and be SHA1 encoded.
 [ -n "$SUPERVISOR_USER" ] || SUPERVISOR_USER=""
 [ -n "$SUPERVISOR_PASS" ] || SUPERVISOR_PASS=""
