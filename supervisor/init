@@ -1,14 +1,25 @@
 #!/usr/bin/env dash
 
-# Custom Dockerfile init script. 
-# Copies files, sets UID/GID, applies time zone, starts supervisor.
+# Custom Dockerfile init script for custom cron/supervisor container.
+# Makes folders, copies files, sets UID/GID, applies time zone, starts supervisor.
+
+# If the /config directory is mounted, make sure it has a log directory.
+[ ! -d "/config" ] || mkdir -p /config/{log,supervisor,cron}
 
 # Copy crontab files into container as root-owned.
 cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
 
 # Update abc user with provided PUID and PGID.
-[ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc 2>/dev/null
-[ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc 2>/dev/null
+[ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc >/dev/null 2>&1
+[ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc >/dev/null 2>&1
+
+# Set a default PORT if one is not provided.
+[ -n "$SUPERVISOR_PORT" ] || SUPERVISOR_PORT=9911
+
+# These need to be set so supervisor doesn't complain. Give them values if you'd like.
+# Password should begin with {SHA} and be SHA1 encoded.
+[ -n "$SUPERVISOR_USER" ] || SUPERVISOR_USER=""
+[ -n "$SUPERVISOR_PASS" ] || SUPERVISOR_PASS=""
 
 # Update the provided time zone in the global environment file.
 # This allows cron to pass the time zone to apps it runs.
