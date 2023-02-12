@@ -7,7 +7,7 @@
 [ ! -d "/config" ] || mkdir -p /config/log /config/supervisor /config/cron
 
 # Copy crontab files into container as root-owned.
-cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
+[ ! -d "/config/cron" ] || cp --no-preserve all -u /config/cron/* /etc/cron.d/
 
 # Update abc user with provided PUID and PGID.
 [ -z "$PUID" ] || /usr/sbin/usermod -o -u $PUID abc >/dev/null 2>&1
