@@ -1,5 +1,5 @@
 #### This is the default /etc/crontab file installed into the container.
 #### Not intended to be overwritten, but it can be if you'd really like to.
 
-# Copy new files into cron.d that get added from outside the container.
+# Periodically copy new files into cron.d that get added from outside the container.
 */5 * * * * root cp --no-preserve all -u /config/cron/* /etc/cron.d / >/dev/null 2>&1

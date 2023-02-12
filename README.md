@@ -28,3 +28,21 @@ docker run -d \
     -v /host/supervisor.d:/config/supervisor:ro \
     ghcr.io/notifiarr/cron-docker:main
 ```
+
+### Configuration
+
+Available variables that control things in the container. Setting a username and
+password is recommended. The password may be SHA1 encoded if it begins with the
+string `{SHA}`. Read more [here](http://supervisord.org/configuration.html#inet-http-server-section-settings).
+
+You can use the `abc` user however you want. Set its user ID and group ID to
+avoid perissions problems with your crontabs.
+
+| Variable        | Default          | Purpose                             |
+| --------------- | ---------------- | ----------------------------------- |
+| PUID            | 99               | Controls the `abc` user UID         |
+| PGID            | 100              | Controls the `abc` user GID         |
+| TZ              | America/New_York | Sets the time zone in the container |
+| SUPERVISOR_PORT | 9911             | Sets the XML RPC interface TCP port |
+| SUPERVISOR_USER | `""`  (empty)    | Sets the XML RPC interface username |
+| SUPERVISOR_PASS | `""`  (empty)    | Sets the XML RPC interface password |
