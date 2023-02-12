@@ -14,13 +14,13 @@ cp --no-preserve all -u /config/cron/* /etc/cron.d 2>/dev/null
 [ -z "$PGID" ] || /usr/sbin/groupmod -o -g $PGID abc >/dev/null 2>&1
 
 # Set a default PORT if one is not provided.
-[ -n "$SUPERVISOR_PORT" ] || SUPERVISOR_PORT=9911
+[ -n "$SUPERVISOR_PORT" ] || export SUPERVISOR_PORT=9911
 
 # These need to be set so supervisor doesn't complain.
 # Pass values in from Docker if you'd like.
 # Password should begin with {SHA} and be SHA1 encoded.
-[ -n "$SUPERVISOR_USER" ] || SUPERVISOR_USER=""
-[ -n "$SUPERVISOR_PASS" ] || SUPERVISOR_PASS=""
+[ -n "$SUPERVISOR_USER" ] || export SUPERVISOR_USER=""
+[ -n "$SUPERVISOR_PASS" ] || export SUPERVISOR_PASS=""
 
 # Update the provided time zone in the global environment file.
 # This allows cron to pass the time zone to apps it runs.
