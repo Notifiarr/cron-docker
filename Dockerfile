@@ -15,10 +15,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
     && apt -y install --no-install-recommends \
         cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
     && apt-add-repository ppa:ondrej/php \
-    && echo "TZ=$TZ" >> /etc/environment \
-    && echo "$TZ" > /etc/timezone \
-    && ([ ! -f /usr/share/zoneinfo/$TZ ] \
-    || ln -sf /usr/share/zoneinfo/$TZ /etc/localtime)
+    && echo "TZ=${TZ}" >> /etc/environment \
+    && echo "${TZ}" > /etc/timezone \
+    && ([ ! -f "/usr/share/zoneinfo/${TZ}" ] \
+    || ln -sf "/usr/share/zoneinfo/${TZ}" /etc/localtime)
 
 # This is where we install our custom packages we use in our crontabs.
 ARG PHPVERS=8.1
