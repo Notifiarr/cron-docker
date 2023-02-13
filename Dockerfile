@@ -4,7 +4,7 @@ FROM ubuntu:jammy@sha256:c985bc3f77946b8e92c9a3648c6f31751a7dd972e06604785e47303
 # These can be changed, and the container runs usermod/groupmod to apply changes.
 ENV PUID=99
 ENV PGID=100
-ENV TZ=/usr/share/zoneinfo/America/New_York
+ENV TZ=America/New_York
 
 # The user matches swag, where the website runs the same code that we run in crontabs.
 # software-properties-common and gpg-agent are needed to run apt-add-repository.
@@ -14,18 +14,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
         --no-create-home --home-dir / --shell /usr/sbin/nologin abc \
     && apt -y install --no-install-recommends \
         cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
-    && apt-add-repository ppa:ondrej/php
+    && apt-add-repository ppa:ondrej/php \
+    && echo "TZ=$TZ" >> /etc/environment \
+    && echo "$TZ" > /etc/timezone \
+    && ([ ! -f /usr/share/zoneinfo/$TZ ] \
+    || ln -sf /usr/share/zoneinfo/$TZ /etc/localtime)
 
 # This is where we install our custom packages we use in our crontabs.
-RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y --no-install-recommends \
-    php8.1-cli php8.1-mysqli php8.1-memcached mysql-client
+ARG PHPVERS=8.1
+ARG PHPMODS=cli,mysqli,curl,xml,memcached
+ARG PACKAGES=mysql-client
+RUN DEBIAN_FRONTEND=noninteractive apt update && /bin/bash -c \
+    "apt install -y --no-install-recommends php${PHPVERS}-{${PHPMODS}} ${PACKAGES}"
 
 # Clean up a few things. The cron changes are important.
 RUN DEBIAN_FRONTEND=noninteractive apt purge -y software-properties-common gpg-agent \
     && apt autoremove -y \
     && apt clean \
-    && rm -rf /etc/cron.*/* \
-    && echo "TZ=$TZ" >> /etc/environment
+    && rm -rf /etc/cron.*/*
 
 LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
 

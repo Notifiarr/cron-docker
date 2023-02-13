@@ -25,7 +25,11 @@ rm -f /etc/cron.d/* 2>/dev/null
 
 # Update the provided time zone in the global environment file.
 # This allows cron to pass the time zone to apps it runs.
-[ -z "$TZ" ] || /usr/bin/sed -i'' /etc/environment -e "s#^TZ=.*#TZ=$TZ#g"
+if [ -n "$TZ" ]; then
+  /usr/bin/sed -i'' /etc/environment -e "s#^TZ=.*#TZ=$TZ#g"
+  echo "$TZ" > /etc/timezone
+  [ ! -f /usr/share/zoneinfo/$TZ ] || ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
+fi
 
 # Start supervisor, which starts cron any other workers.
 exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
