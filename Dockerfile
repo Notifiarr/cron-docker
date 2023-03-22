@@ -22,7 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
 
 # This is where we install our custom packages we use in our crontabs.
 ARG PHPVERS=8.1
-ARG PHPMODS=cli,mysqli,curl,xml,memcached,php81-mbstring
+ARG PHPMODS=cli,mysqli,curl,xml,memcached,mbstring
 ARG PACKAGES=mysql-client
 RUN DEBIAN_FRONTEND=noninteractive apt update && /bin/bash -c \
     "apt install -y --no-install-recommends php${PHPVERS}-{${PHPMODS}} ${PACKAGES}"
