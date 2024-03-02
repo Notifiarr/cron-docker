@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
     && useradd --system --non-unique --uid ${PUID} --gid ${PGID} \
         --no-create-home --home-dir / --shell /usr/sbin/nologin abc \
     && apt -y install --no-install-recommends \
-        cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
+        curl cron supervisor tzdata ca-certificates software-properties-common gpg-agent \
     && apt-add-repository ppa:ondrej/php \
     && echo "TZ=${TZ}" >> /etc/environment \
     && echo "${TZ}" > /etc/timezone \
@@ -32,6 +32,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt purge -y software-properties-common gpg-a
     && apt autoremove -y \
     && apt clean \
     && rm -rf /etc/cron.*/*
+
+# Install datadog
+RUN curl -sLO https://github.com/DataDog/dd-trace-php/releases/latest/download/datadog-setup.php \
+    && php datadog-setup.php --php-bin=all --enable-appsec --enable-profiling \
+    && rm -f datadog-setup.php
+ENV DD_TRACE_CLI_ENABLED=1
 
 LABEL org.opencontainers.image.source = "https://github.com/Notifiarr/cron-docker"
 
