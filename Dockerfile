@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update \
     || ln -sf "/usr/share/zoneinfo/${TZ}" /etc/localtime)
 
 # This is where we install our custom packages we use in our crontabs.
-ARG PHPVERS=8.1
+ARG PHPVERS=8.3
 ARG PHPMODS=cli,mysqli,curl,xml,memcached,mbstring,redis
 ARG PACKAGES=mysql-client
 RUN DEBIAN_FRONTEND=noninteractive apt update && /bin/bash -c \
