@@ -1,5 +1,5 @@
 # Ubuntu 22. Renovate keeps the sha up to date.
-FROM ubuntu:jammy@sha256:5e14404dbc9df30fef8460020b99a3c0034241283912189fd4650e446d8d6c92
+FROM ubuntu:jammy@sha256:4e0171b9275e12d375863f2b3ae9ce00a4c53ddda176bd55868df97ac6f21a6e
 
 # These can be changed, and the container runs usermod/groupmod to apply changes.
 ENV PUID=99
